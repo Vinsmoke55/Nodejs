@@ -16,4 +16,4 @@ console.log(dataObject);
 
 var updatedDataString=JSON.stringify(dataObject);	//stringiying the object
 
-fs.writeFileSync('data.json',updatedDataString);	//writing the updated data in the data.json file
+fs.writeFileSync('data.json',updatedDataString);	//writing the updated data in the data.json file using fs module
