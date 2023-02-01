@@ -1,0 +1,9 @@
+Commands:
+  app.js add       to add note
+  app.js remove    remove a note
+  app.js listnote  list the notes
+  app.js read      read the list
+
+Options:
+  --help     Show help                                                 [boolean]
+  --version  Show version number                                       [boolean]
