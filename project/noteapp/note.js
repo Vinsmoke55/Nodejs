@@ -1,4 +1,5 @@
 const fs=require('fs');
+const chalk=require('chalk');
 
 
 var addNote=function(title,body){
@@ -10,6 +11,23 @@ var addNote=function(title,body){
 	saveNote(note);
 }
 
+//removing the note from the json file
+var removeNote=function(title){
+	try{
+		var note=loadnote();
+	var noteToSave=note.filter(function(note){
+		return note.title!==title;			//return and save to noteToSave if note.title is not equal to title
+	});
+	saveNote(noteToSave);
+	console.log(chalk.bgGreen.black('note removed'));
+
+	}
+	catch(e){
+		console.log(chalk.bgRed.black('note not removed'));
+	}
+
+
+}
 
 //loading a note and if there is no such file than store returning an array
 var loadnote=function(){
@@ -33,7 +51,8 @@ var saveNote=function(note){
 
 //exporting the module addNote
 module.exports={
-	addNote:addNote
+	addNote:addNote,
+	removeNote:removeNote
 }
 
 
