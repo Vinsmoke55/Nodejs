@@ -48,4 +48,20 @@ yargs.command({
 		notes.listNote();
 	}
 })
+
+//creating a read command
+yargs.command({
+	command:'read',
+	describe:'read the list',
+	builder:{
+		title:{
+			describe:"title to read",
+			demandOption:true,
+			type:'string'
+		}
+	},
+	handler:(argv)=>{
+		notes.readNote(argv.title);
+	}
+})
 yargs.parse();

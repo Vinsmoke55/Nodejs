@@ -1,7 +1,7 @@
 const fs=require('fs');
 const chalk=require('chalk');
 
-
+//adds the note to the note.json file
 var addNote=(title,body)=>{
 	var note=loadnote();		
 	note.push({
@@ -30,6 +30,7 @@ var removeNote=(title)=>{
 
 }
 
+//listing the title of all the notes saved
 var listNote=()=>{
 	var note=loadnote();
 	console.log(chalk.yellow.inverse("your notes ..."));
@@ -37,6 +38,21 @@ var listNote=()=>{
 		console.log(note.title);
 	})
 
+}
+
+//reading the note with title
+var readNote=(title)=>{
+	try{
+		var note=loadnote();
+	var findNote=note.find((note)=>{
+		return note.title===title;
+	})
+		console.log(chalk.yellow.inverse("the content of the note is ...."));
+		console.log(findNote.body);
+	}
+	catch(e){
+		console.log(chalk.red.inverse("note not found"));
+	}
 }
 
 //loading a note and if there is no such file than store returning an array
@@ -63,7 +79,8 @@ var saveNote=(note)=>{
 module.exports={
 	addNote:addNote,
 	removeNote:removeNote,
-	listNote:listNote
+	listNote:listNote,
+	readNote:readNote
 }
 
 
