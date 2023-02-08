@@ -1,18 +1,20 @@
 const path=require('path')
 const express=require('express')
+const hbs=require('hbs')
 
 const app=express()
 
 //define path for express config
-const viewsFilePath=path.join(__dirname,'template')
+const viewsFilePath=path.join(__dirname,'template/view')
 const pathToPublic=path.join(__dirname,'public')	// ../is used to go back in directory
-console.log(pathToPublic)
+const pathToPartials=path.join(__dirname,'template/partials')
 
 //setup handlebars
 app.set('view engine','hbs')
 app.set('views',viewsFilePath)
 
 //setup static files
+hbs.registerPartials(pathToPartials)
 app.use(express.static(pathToPublic))
 
 
