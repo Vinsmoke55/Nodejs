@@ -31,7 +31,16 @@ app.get('/help',(req,res)=>{
 	console.log(req.url)
 })
 
+//if the route is not found before wildcard character 
+//then this route is displayed
 
+app.get('/help/*',(req,res)=>{
+	res.render('404',{title:'help article not found'})
+})
+
+app.get('*',(req,res)=>{
+	res.render('404',{title:'404 page not found'})
+})
 
 app.listen(3000,()=>{
 	console.log('app up and running at port 3000')
