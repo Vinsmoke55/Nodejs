@@ -31,6 +31,16 @@ app.get('/help',(req,res)=>{
 	console.log(req.url)
 })
 
+app.get('/weather',(req,res)=>{
+	if(!req.query.address){
+		return res.send({
+			error:'you must provide the address field at query string'
+		})
+	}
+	res.send({
+		address:req.query.address
+	})
+})
 //if the route is not found before wildcard character 
 //then this route is displayed
 
@@ -41,6 +51,7 @@ app.get('/help/*',(req,res)=>{
 app.get('*',(req,res)=>{
 	res.render('404',{title:'404 page not found'})
 })
+
 
 app.listen(3000,()=>{
 	console.log('app up and running at port 3000')
