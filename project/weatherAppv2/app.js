@@ -30,7 +30,6 @@ app.get('/about',(req,res)=>{
 
 app.get('/help',(req,res)=>{
 	res.render('help',{title:'help page'})
-	console.log(req.url)
 })
 
 app.get('/weather',(req,res)=>{
@@ -45,7 +44,7 @@ app.get('/weather',(req,res)=>{
 		console.log('please provide the address')
 	}
 	else{
-		geoCode(address,(error,{latitude,longitude})=>{	//data is an object so destrcturing it 
+		geoCode(req.query.address,(error,{latitude,longitude})=>{	//data is an object so destrcturing it 
 		if(error){
 			return res.send({error:err})
 		}

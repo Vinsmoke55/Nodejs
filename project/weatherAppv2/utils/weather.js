@@ -11,8 +11,12 @@ var weatherReport=(latitude,longitude,callback)=>{
 				callback(undefined,"data error occured");
 			}
 			else{
-				callback(undefined,'the temperature is '+body.current.temperature+' and there is '+body.current.precip+'% of raining');
+
+				callback(undefined,body.current.weather_descriptions[0]+' .The temperature is '+body.current.temperature+' and there is '+body.current.precip+'% of raining');
+				
 			}
 		})
 }
 module.exports=weatherReport;
+
+

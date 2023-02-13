@@ -1,5 +1,5 @@
 body{
-	color: #33333;
+	color: #73694f;
 	font-family: arial;
 	max-width: 650px;
 	margin: 0 auto;
@@ -7,22 +7,32 @@ body{
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	background-color: #b6dbc0;
 }
 
 .main-content{
 	flex-grow: 1;
+	font-size: 20px;
 }
 
 footer{
+	background-color: #9dc49d;
 	color:#888888;
-	border-top: 1px solid #eeeeee;
+	font-size: 20px;
+	font-weight: bold;
+	border-top: 3px solid #eeeeee;
 	margin-top: 16px;
-	padding: 16px 0;
+	padding: 16px 20px;
+
 }
 
 header{
+	background-color: #9dc49d;
+	font-weight: bold;
+	font-size: 25px;
 	margin-top: 16px;
 	margin-bottom: 48px;
+	border-bottom: 3px solid #eeeeee;
 }
 
 h1{
@@ -38,4 +48,15 @@ header a{
 
 .portrait{
 	width: 250px;
+}
+input{
+	border:1px solid #cccccc;
+	padding: 8px;
+}
+button{
+	cursor: pointer;
+	border:1px solid #888888;
+	background:#6b6042;
+	color:white;
+	padding: 8px;
 }
