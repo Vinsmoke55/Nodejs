@@ -29,10 +29,14 @@ mongoose.connect(dbURL)
 
 const tasks=mongoose.model('Task',{
 	description:{
-		type:'string'
+		type:'string',
+		required:true,
+		trim:true
 	},
 	completed:{
-		type:Boolean
+		type:Boolean,,
+		required:false,
+		default:false,
 	}
 })
 

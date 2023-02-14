@@ -22,6 +22,17 @@ const user=mongoose.model('User',{
 			}
 		}
 	},
+	password:{
+		type:'string',
+		required:true,
+		minlength:5,		//this makes password to be more then 5 lenght
+		trim:true,
+		validate(value){
+			if(value=='password'){	//this will throw errr if password is a string password 
+				throw new Error('passowrd error')
+			}
+		}
+	},
 	age:{
 		type:Number,
 		validate(value){		//if the given value for the age is a negative nuber than it throws error
@@ -34,6 +45,7 @@ const user=mongoose.model('User',{
 const me=new user({
 	name:'Ayush',
 	email:'neupaneayush3@gmail.com',
+	password:'hell',
 	age:20
 
 })
