@@ -34,7 +34,7 @@ const tasks=mongoose.model('Task',{
 		trim:true
 	},
 	completed:{
-		type:Boolean,,
+		type:Boolean,
 		required:false,
 		default:false,
 	}
