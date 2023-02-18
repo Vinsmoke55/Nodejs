@@ -43,11 +43,31 @@ app.get('/user/:id',(req,res)=>{		//adding a dynamic parameter id
 	const _id=req.params.id;			//we can get the dynamic parameter by using params which is an object
 	User.findById(_id).then((user)=>{
 		if(!user){
-			res.status(500).send()
+			return res.status(500).send()
 		}
 		res.status(200).send(user)
 	}).catch((e)=>{
 		res.status(500).send(e)
+	})
+})
+
+app.get('/task',(req,res)=>{
+	Task.find({}).then((tasks)=>{
+		res.status(200).send(tasks)
+	}).catch((e)=>{
+		res.status(500).send(e)
+	})
+})
+
+app.get('/task/:id',(req,res)=>{
+	const _id=req.params.id;
+	Task.findById(_id).then((task)=>{
+		if(!task){
+			return res.status(500).send()
+		}
+		res.status(200).send(task)
+	}).catch((e)=>{
+		res.status(200).send(e)
 	})
 })
 
