@@ -31,6 +31,26 @@ app.post('/task',(req,res)=>{
 	
 })
 
+app.get('/user',(req,res)=>{		//finding all the users and sending as the response
+	User.find({}).then((users)=>{
+		res.status(200).send(users)
+	}).catch(()=>{
+		res.status(500).send()
+	})
+})
+
+app.get('/user/:id',(req,res)=>{		//adding a dynamic parameter id
+	const _id=req.params.id;			//we can get the dynamic parameter by using params which is an object
+	User.findById(_id).then((user)=>{
+		if(!user){
+			res.status(500).send()
+		}
+		res.status(200).send(user)
+	}).catch((e)=>{
+		res.status(500).send(e)
+	})
+})
+
 app.listen(3000,()=>{
 	console.log('app running at port '+port)
 })
