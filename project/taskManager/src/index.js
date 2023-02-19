@@ -48,6 +48,28 @@ app.get('/user/:id',async(req,res)=>{		//adding a dynamic parameter id
 	}
 })
 
+app.patch('/user/:id',async(req,res)=>{
+	//this is for the update which do not match the field eg height:20
+	const updates=Object.keys(req.body)
+	const allowedUpdates=['name','email','password','age']
+	const isValidOperation=updates.every((update)=>allowedUpdates.includes(update))
+	if(!isValidOperation){
+		return res.status(400).send({error:'invalid update'})
+	}
+
+	//update the user with the id 
+	try{
+		const user=await User.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+		if(!user){					//if no user with the id is found then return status 404
+			return res.status(404).send()
+		}
+		res.send(user)
+	}
+	catch(e){
+		res.status(500).send(e)
+	}
+})
+
 app.post('/task',async(req,res)=>{
 	const task=new Task(req.body)	//creating a new user which is send from the postman and saving to the database
 	try{
@@ -82,6 +104,25 @@ app.get('/task/:id',async(req,res)=>{
 	}
 	catch(e){
 		res.status(400).send(e)
+	}
+})
+
+app.patch('/task/:id',async(req,res)=>{
+	const updates=Object.keys(req.body)
+	const allowedUpdates=['description','completed']
+	const isValidOperation=updates.every((update)=>allowedUpdates.includes(update))
+	if(!isValidOperation){
+		return res.status(400).send({error:'invalid update'})
+	}
+	try{
+		const task=await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+		if(!task){
+			return res.send(404).send()
+		}
+		res.send(task)
+	}
+	catch(e){
+		res.status(500).send(e)
 	}
 })
 
