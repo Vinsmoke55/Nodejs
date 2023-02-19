@@ -9,66 +9,80 @@ app.use(express.json())		//this line parse the incoming json
 
 const port=process.env.PORT||3000
 
-app.post('/user',(req,res)=>{
+app.post('/user',async(req,res)=>{
 	const user=new User(req.body)	//creating a new user which is send from the postman and saving to the database
 
-	user.save().then(()=>{
-		res.status(201).send(user)	//201 status code means created
-	}).catch((err)=>{
-		res.status(400).send(err)		//we can change the satus code using .status
-	})
-	
+	try{
+		await user.save()
+		res.status(201).send(user)
+	}
+	catch(e){
+		res.status(400).send(e)
+	}
 })
 
-app.post('/task',(req,res)=>{
-	const task=new Task(req.body)	//creating a new user which is send from the postman and saving to the database
+app.get('/user',async(req,res)=>{		//finding all the users and sending as the response
 
-	task.save().then(()=>{
-		res.status(201).send(task)
-	}).catch((err)=>{
-		res.status(400).send(err)		//we can change the satus code using .status
-	})
-	
-})
-
-app.get('/user',(req,res)=>{		//finding all the users and sending as the response
-	User.find({}).then((users)=>{
+	try{
+		const users=await User.find({})
 		res.status(200).send(users)
-	}).catch(()=>{
-		res.status(500).send()
-	})
+	}
+	catch(e){
+		res.status(500).send(e)
+	}
+
 })
 
-app.get('/user/:id',(req,res)=>{		//adding a dynamic parameter id
+app.get('/user/:id',async(req,res)=>{		//adding a dynamic parameter id
 	const _id=req.params.id;			//we can get the dynamic parameter by using params which is an object
-	User.findById(_id).then((user)=>{
+
+	try{
+		const user=await User.findById(_id)
 		if(!user){
 			return res.status(500).send()
 		}
 		res.status(200).send(user)
-	}).catch((e)=>{
+	}
+	catch(e){
 		res.status(500).send(e)
-	})
+	}
 })
 
-app.get('/task',(req,res)=>{
-	Task.find({}).then((tasks)=>{
+app.post('/task',async(req,res)=>{
+	const task=new Task(req.body)	//creating a new user which is send from the postman and saving to the database
+	try{
+		await task.save()
+		res.status(201).send(task)
+	}
+	catch(e){
+		res.status(400).send(e)
+	}
+})
+
+app.get('/task',async(req,res)=>{
+
+	try{
+		const tasks=await Task.find({})
 		res.status(200).send(tasks)
-	}).catch((e)=>{
+	}
+	catch(e){
 		res.status(500).send(e)
-	})
+	}
 })
 
-app.get('/task/:id',(req,res)=>{
+app.get('/task/:id',async(req,res)=>{
 	const _id=req.params.id;
-	Task.findById(_id).then((task)=>{
+
+	try{
+		const task=await Task.findById(_id)
 		if(!task){
 			return res.status(500).send()
 		}
 		res.status(200).send(task)
-	}).catch((e)=>{
-		res.status(200).send(e)
-	})
+	}
+	catch(e){
+		res.status(400).send(e)
+	}
 })
 
 app.listen(3000,()=>{
