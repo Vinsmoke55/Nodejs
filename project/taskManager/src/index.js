@@ -9,6 +9,7 @@ app.use(express.json())		//this line parse the incoming json
 
 const port=process.env.PORT||3000
 
+//resource creating endpoint for user
 app.post('/user',async(req,res)=>{
 	const user=new User(req.body)	//creating a new user which is send from the postman and saving to the database
 
@@ -21,6 +22,7 @@ app.post('/user',async(req,res)=>{
 	}
 })
 
+//resource reading endpoint for user
 app.get('/user',async(req,res)=>{		//finding all the users and sending as the response
 
 	try{
@@ -33,6 +35,7 @@ app.get('/user',async(req,res)=>{		//finding all the users and sending as the re
 
 })
 
+//resource reading endpoint by id for user
 app.get('/user/:id',async(req,res)=>{		//adding a dynamic parameter id
 	const _id=req.params.id;			//we can get the dynamic parameter by using params which is an object
 
@@ -48,6 +51,7 @@ app.get('/user/:id',async(req,res)=>{		//adding a dynamic parameter id
 	}
 })
 
+//resource updating endpoint for user
 app.patch('/user/:id',async(req,res)=>{
 	//this is for the update which do not match the field eg height:20
 	const updates=Object.keys(req.body)
@@ -70,6 +74,21 @@ app.patch('/user/:id',async(req,res)=>{
 	}
 })
 
+//resource deleting endpoint for user
+app.delete('/user/:id',async(req,res)=>{
+	try{
+		const user=await User.findByIdAndDelete(req.params.id)
+		if(!user){
+			return res.status(404).send()
+		}
+		res.send(user)
+	}
+	catch(e){
+		res.status(500).send(e)
+	}
+})
+
+//resource creating endpoint for task
 app.post('/task',async(req,res)=>{
 	const task=new Task(req.body)	//creating a new user which is send from the postman and saving to the database
 	try{
@@ -81,6 +100,7 @@ app.post('/task',async(req,res)=>{
 	}
 })
 
+//resource reading enpoint for task
 app.get('/task',async(req,res)=>{
 
 	try{
@@ -92,6 +112,7 @@ app.get('/task',async(req,res)=>{
 	}
 })
 
+//resource reading enpoint by id for task
 app.get('/task/:id',async(req,res)=>{
 	const _id=req.params.id;
 
@@ -107,6 +128,7 @@ app.get('/task/:id',async(req,res)=>{
 	}
 })
 
+//resource updating endpoint for task
 app.patch('/task/:id',async(req,res)=>{
 	const updates=Object.keys(req.body)
 	const allowedUpdates=['description','completed']
@@ -118,6 +140,20 @@ app.patch('/task/:id',async(req,res)=>{
 		const task=await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
 		if(!task){
 			return res.send(404).send()
+		}
+		res.send(task)
+	}
+	catch(e){
+		res.status(500).send(e)
+	}
+})
+
+//resource deleting endpoint for task
+app.delete('/task/:id',async(req,res)=>{
+	try{
+		const task=await Task.findByIdAndDelete(req.params.id)
+		if(!task){
+			return res.status(404).send()
 		}
 		res.send(task)
 	}
