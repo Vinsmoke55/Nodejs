@@ -39,6 +39,19 @@ const userSchema=mongoose.Schema({		//creating a schema
 	}
 })
 
+userSchema.statics.findByCredentials=async(email,password)=>{
+	const user=await User.findOne({email})
+	if(!user){
+		throw new Error('unable to login')
+	}
+	const isMatch=await bcrypt.compare(password,user.password)
+	if(!isMatch){
+		throw new Error('unable to login')
+	}
+	return user
+}
+
+//hashing the password before saving and udating
 userSchema.pre('save',async function(next){		//pre for before event and post for after event
 	const user=this
 	if(user.isModified('password')){
