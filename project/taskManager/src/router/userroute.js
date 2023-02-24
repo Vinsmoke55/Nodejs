@@ -1,5 +1,6 @@
 const express=require('express')
 const User=require('../models/user.js')
+const auth=require('../middleware/auth.js')
 const router=new express.Router()
 
 //resource creating endpoint for user
@@ -28,16 +29,8 @@ router.post('/user/login',async (req,res)=>{
 })
 
 //resource reading endpoint for user
-router.get('/user',async(req,res)=>{		//finding all the users and sending as the response
-
-	try{
-		const users=await User.find({})
-		res.status(200).send(users)
-	}
-	catch(e){
-		res.status(500).send(e)
-	}
-
+router.get('/user/me',auth,async(req,res)=>{		//setting up middleware function for a specific route
+	res.send(req.user)
 })
 
 //resource reading endpoint by id for user

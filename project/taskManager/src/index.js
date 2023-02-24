@@ -14,9 +14,9 @@ const app=express()
 // 	}
 // })
 
-app.use((req,res,next)=>{
-	res.status(503).send('the app is currently under maintainance')
-})
+// app.use((req,res,next)=>{
+// 	res.status(503).send('the app is currently under maintainance')
+// })
 
 app.use(express.json())		//this line parse the incoming json 
 app.use(userRouter)			//using user router
