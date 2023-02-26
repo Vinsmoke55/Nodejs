@@ -46,6 +46,14 @@ const userSchema=mongoose.Schema({		//creating a schema
 	}]
 })
 
+userSchema.methods.toJSON=function(){	//hiding the private inforamation
+	const user=this
+	const userObject=user.toObject() //creating an object so we can manipulate
+	delete userObject.password
+	delete userObject.tokens
+	return userObject
+}
+
 userSchema.methods.generateAuthToken=async function(){		//creating method for generating a token
 	const user=this
 	const token=await jwt.sign({_id:user.id.toString()},'thisisthat')

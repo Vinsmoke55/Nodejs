@@ -28,7 +28,7 @@ router.post('/user/login',async (req,res)=>{
 	}
 })
 
-router.post('/user/logout',auth,async(req,res)=>{		//logout
+router.post('/user/logout',auth,async(req,res)=>{		//logout removes only the current generated token
 	try{
 		req.user.tokens=req.user.tokens.filter((token)=>{
 			return token.token!=req.token
