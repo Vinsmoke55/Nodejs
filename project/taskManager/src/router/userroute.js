@@ -57,24 +57,8 @@ router.get('/user/me',auth,async(req,res)=>{		//setting up middleware function f
 	res.send(req.user)
 })
 
-//resource reading endpoint by id for user
-router.get('/user/:id',async(req,res)=>{		//adding a dynamic parameter id
-	const _id=req.params.id;			//we can get the dynamic parameter by using params which is an object
-
-	try{
-		const user=await User.findById(_id)
-		if(!user){
-			return res.status(500).send()
-		}
-		res.status(200).send(user)
-	}
-	catch(e){
-		res.status(500).send(e)
-	}
-})
-
 //resource updating endpoint for user
-router.patch('/user/:id',async(req,res)=>{
+router.patch('/user/me',auth,async(req,res)=>{
 	//this is for the update which do not match the field eg height:20
 	const updates=Object.keys(req.body)
 	const allowedUpdates=['name','email','password','age']
@@ -85,13 +69,9 @@ router.patch('/user/:id',async(req,res)=>{
 
 	//update the user with the id 
 	try{
-		const user=await User.findById(req.params.id)
-		updates.forEach((update)=>user[update]=req.body[update])
-		await user.save()
-		if(!user){					//if no user with the id is found then return status 404
-			return res.status(404).send()
-		}
-		res.send(user)
+		updates.forEach((update)=>req.user[update]=req.body[update])
+		await req.user.save()
+		res.send(req.user)
 	}
 	catch(e){
 		res.status(500).send(e)
@@ -99,13 +79,10 @@ router.patch('/user/:id',async(req,res)=>{
 })
 
 //resource deleting endpoint for user
-router.delete('/user/:id',async(req,res)=>{
+router.delete('/user/me',auth,async(req,res)=>{
 	try{
-		const user=await User.findByIdAndDelete(req.params.id)
-		if(!user){
-			return res.status(404).send()
-		}
-		res.send(user)
+		req.user.remove()
+		res.send(req.user)
 	}
 	catch(e){
 		res.status(500).send(e)
