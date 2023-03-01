@@ -1,10 +1,14 @@
 const express=require('express')
 const Task=require('../models/task.js')
+const auth=require('../middleware/auth.js')
 const router=new express.Router()
 
 //resource creating endpoint for task
-router.post('/task',async(req,res)=>{
-	const task=new Task(req.body)	//creating a new user which is send from the postman and saving to the database
+router.post('/task',auth,async(req,res)=>{
+	const task=new Task({
+		...req.body,
+		owner:req.user._id
+	})
 	try{
 		await task.save()
 		res.status(201).send(task)

@@ -46,6 +46,12 @@ const userSchema=mongoose.Schema({		//creating a schema
 	}]
 })
 
+userSchema.virtual('tasks',{
+	ref:'Task',
+	localField:'_id',
+	foreignField:'owner'
+})
+
 userSchema.methods.toJSON=function(){	//hiding the private inforamation
 	const user=this
 	const userObject=user.toObject() //creating an object so we can manipulate

@@ -13,9 +13,11 @@ const Task=mongoose.model('Task',{
 		default:false
 	},
 	owner:{
-		type:mongoose.Schema.Types.ObjecId,
-		required:true
+		type:mongoose.Schema.Types.ObjectId,
+		required:true,
+		ref:'User'
 	}
+
 
 })
 
