@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const validator=require('validator');
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
+const Task=require('./task.js')
 
 const userSchema=mongoose.Schema({		//creating a schema
 	name:{
@@ -88,7 +89,15 @@ userSchema.pre('save',async function(next){		//pre for before event and post for
 	}
 	next()
 
-})		
+})	
+
+//delete tasks when user is deleted
+userSchema.pre('remove',async function(next){
+	const user=this
+
+	next()
+})
+
 const User=mongoose.model('User',userSchema)
 
 module.exports=User;
