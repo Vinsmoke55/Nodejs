@@ -45,6 +45,8 @@ const userSchema=mongoose.Schema({		//creating a schema
 			required:true
 		}
 	}]
+},{
+	timestamps:true			//adding the timestamps to the database
 })
 
 userSchema.virtual('tasks',{
@@ -94,7 +96,7 @@ userSchema.pre('save',async function(next){		//pre for before event and post for
 //delete tasks when user is deleted
 userSchema.pre('remove',async function(next){
 	const user=this
-
+	Task.deleteMany({owner:user._id})
 	next()
 })
 
