@@ -46,7 +46,7 @@ const userSchema=mongoose.Schema({		//creating a schema
 		}
 	}]
 },{
-	timestamps:true			//adding the timestamps to the database
+	timestamps:true			//adding the timestamps to the database to show date created and updated
 })
 
 userSchema.virtual('tasks',{

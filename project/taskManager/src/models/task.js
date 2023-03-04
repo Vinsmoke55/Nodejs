@@ -20,7 +20,7 @@ const taskSchema=mongoose.Schema({
 
 
 },{
-	timestamps:true
+	timestamps:true		//adding the timestamps to the database to show date created and date updated
 })
 
 const Task=mongoose.model('Task',taskSchema)
