@@ -21,8 +21,17 @@ router.post('/task',auth,async(req,res)=>{
 //resource reading enpoint for task
 router.get('/task',auth,async(req,res)=>{
 
+	const match={}
+	if(req.query.completed){	//filtering the data
+		match.completed=req.query.completed==='true'
+	}
+	
+
 	try{
-		await req.user.populate('tasks')
+		await req.user.populate({
+			path:'tasks',
+			match
+		})
 		res.status(200).send(req.user.tasks)
 	}
 	catch(e){
