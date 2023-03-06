@@ -30,7 +30,11 @@ router.get('/task',auth,async(req,res)=>{
 	try{
 		await req.user.populate({
 			path:'tasks',
-			match
+			match,
+			options:{
+				limit:parseInt(req.query.limit), 	//for pagination
+				skip:parseInt(req.query.skip)		//skipping some data after limiting
+			}
 		})
 		res.status(200).send(req.user.tasks)
 	}
