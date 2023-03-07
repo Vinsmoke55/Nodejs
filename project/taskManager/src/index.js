@@ -15,7 +15,16 @@ const port=process.env.PORT||3000
 const multer=require('multer')
 
 const avatar=multer({
-	dest:'images'
+	dest:'images',
+	limits:{				//limiting the file size to be less than 1mb
+		fileSize:1000000
+	},
+	fileFilter(req,file,cb){		//filtering a file to be a word document
+		if(!file.originalname.match('\.(doc|docx)$')){		//putting a regular expression inside match to be a word document
+			return cb(new Error('please upload a word document'))
+		}
+		cb(undefined,true)
+	}
 })
 
 app.post('/upload',avatar.single('upload'),(req,res)=>{
