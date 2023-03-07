@@ -93,7 +93,16 @@ router.delete('/user/me',auth,async(req,res)=>{
 
 //file upload using multer
 const upload=multer({
-	dest:'avatars'
+	dest:'avatars',
+	limits:{
+		fileSize:1000000		//limiting file size to one mb
+	},
+	fileFilter(req,file,cb){
+		if(!file.originalname.match('\.(jpg|jpeg|png)')){	//taking file with extension jpg jpeg and png only
+			return cb(new Error('please upload an image'))
+		}
+		cb(undefined,true)
+	}
 })
 
 
