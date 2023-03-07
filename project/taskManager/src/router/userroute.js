@@ -1,6 +1,7 @@
 const express=require('express')
 const User=require('../models/user.js')
 const auth=require('../middleware/auth.js')
+const multer=require('multer')
 const router=new express.Router()
 
 //resource creating endpoint for user
@@ -87,6 +88,17 @@ router.delete('/user/me',auth,async(req,res)=>{
 	catch(e){
 		res.status(500).send(e)
 	}
+})
+
+
+//file upload using multer
+const upload=multer({
+	dest:'avatars'
+})
+
+
+router.post('/user/me/avatar',upload.single('avatar'),(req,res)=>{
+	res.send()
 })
 
 module.exports=router

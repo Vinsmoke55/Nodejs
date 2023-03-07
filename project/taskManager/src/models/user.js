@@ -5,6 +5,7 @@ const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 const Task=require('./task.js')
 
+
 const userSchema=mongoose.Schema({		//creating a schema
 	name:{
 		type:'string',
