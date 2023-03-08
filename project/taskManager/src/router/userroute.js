@@ -2,6 +2,7 @@ const express=require('express')
 const User=require('../models/user.js')
 const auth=require('../middleware/auth.js')
 const multer=require('multer')
+const sharp=require('sharp')
 const router=new express.Router()
 
 //resource creating endpoint for user
@@ -106,7 +107,8 @@ const upload=multer({
 
 
 router.post('/user/me/avatar',auth,upload.single('avatar'),async(req,res)=>{
-	req.user.avatar=req.file.buffer
+	const buffer=await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer()		//auto cropping and image formatting 
+	req.user.avatar=buffer
 	await req.user.save()
 	res.send()
 },(error,req,res,next)=>{			//handiling error with error handler callback
@@ -126,7 +128,7 @@ router.get('/users/:id/avatar',async(req,res)=>{	//to get the profile picture by
 		{
 			throw new Error()
 		}
-		res.set('Content-Type','image/jpg')		//express make content type to application/JSON by default so making it image
+		res.set('Content-Type','image/png')		//express make content type to application/JSON by default so making it image
 		res.send(user.avatar)
 	}
 	catch(e){

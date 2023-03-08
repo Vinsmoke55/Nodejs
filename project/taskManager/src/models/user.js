@@ -64,6 +64,7 @@ userSchema.methods.toJSON=function(){	//hiding the private inforamation
 	const userObject=user.toObject() //creating an object so we can manipulate
 	delete userObject.password
 	delete userObject.tokens
+	delete userObject.avatar
 	return userObject
 }
 
