@@ -14,7 +14,7 @@ const port=process.env.PORT||3000
 //file uploads using multer
 const multer=require('multer')
 
-const avatar=multer({
+const upload=multer({
 	dest:'images',
 	limits:{				//limiting the file size to be less than 1mb
 		fileSize:1000000
@@ -27,8 +27,10 @@ const avatar=multer({
 	}
 })
 
-app.post('/upload',avatar.single('upload'),(req,res)=>{
+app.post('/upload',upload.single('upload'),(req,res)=>{
 	res.send()
+},(error,req,res,next)=>{				//handiling the express error with callback
+	res.status(400).send({error:error.message})
 })
 
 
