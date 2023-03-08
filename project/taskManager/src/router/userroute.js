@@ -119,4 +119,19 @@ router.delete('/user/me/avatar',auth,async(req,res)=>{		//for deleting the avata
 	res.status(200).send()
 })
 
+router.get('/users/:id/avatar',async(req,res)=>{	//to get the profile picture by id
+	try{
+		const user=await User.findById(req.params.id)
+		if(!user||!user.avatar)
+		{
+			throw new Error()
+		}
+		res.set('Content-Type','image/jpg')		//express make content type to application/JSON by default so making it image
+		res.send(user.avatar)
+	}
+	catch(e){
+		res.status(404).send()
+	}
+})
+
 module.exports=router
