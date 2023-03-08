@@ -45,7 +45,10 @@ const userSchema=mongoose.Schema({		//creating a schema
 			type:String,
 			required:true
 		}
-	}]
+	}],
+	avatar:{			//to add image
+		type:Buffer
+	}
 },{
 	timestamps:true			//adding the timestamps to the database to show date created and updated
 })
