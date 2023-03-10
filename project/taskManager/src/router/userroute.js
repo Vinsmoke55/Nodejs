@@ -3,6 +3,7 @@ const User=require('../models/user.js')
 const auth=require('../middleware/auth.js')
 const multer=require('multer')
 const sharp=require('sharp')
+const {sendWelcomeEmail}=require('../emails/account.js')
 const router=new express.Router()
 
 //resource creating endpoint for user
@@ -11,6 +12,7 @@ router.post('/user',async(req,res)=>{
 
 	try{
 		await user.save()
+		sendWelcomeEmail(user.email,user.name)		//sending the welcome email
 		const token=await user.generateAuthToken()	//generating token when user is created
 		res.status(201).send({user,token})
 	}
