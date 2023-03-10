@@ -13,6 +13,17 @@ const sendWelcomeEmail=(email,name)=>{		//to send the welcome email to the user
 })
 }
 
+const sendCancelEmail=(email,name)=>{		//to send the cancelation email to the user
+	sgmail.send({
+	to:email,
+	from:'neupaneaush3@gmail.com',
+	subject:'canclelation email',
+	text:`hello ${name},your account have been sucessfully removed`
+})
+}
+
+
 module.exports={
-	sendWelcomeEmail
+	sendWelcomeEmail,
+	sendCancelEmail
 }

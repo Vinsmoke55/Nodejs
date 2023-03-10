@@ -3,7 +3,7 @@ const User=require('../models/user.js')
 const auth=require('../middleware/auth.js')
 const multer=require('multer')
 const sharp=require('sharp')
-const {sendWelcomeEmail}=require('../emails/account.js')
+const {sendWelcomeEmail,sendCancelEmail}=require('../emails/account.js')
 const router=new express.Router()
 
 //resource creating endpoint for user
@@ -86,6 +86,7 @@ router.patch('/user/me',auth,async(req,res)=>{
 router.delete('/user/me',auth,async(req,res)=>{
 	try{
 		req.user.remove()
+		sendCancelEmail(req.user.email,req.user.name)
 		res.send(req.user)
 	}
 	catch(e){
