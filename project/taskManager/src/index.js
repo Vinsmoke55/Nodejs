@@ -9,7 +9,7 @@ app.use(express.json())		//this line parse the incoming json
 app.use(userRouter)			//using user router
 app.use(taskRouter)			//using task router
 
-const port=process.env.PORT||3000
+const port=process.env.PORT
 
 //file uploads using multer
 const multer=require('multer')
