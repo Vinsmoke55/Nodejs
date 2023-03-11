@@ -12,8 +12,17 @@ const pathToPublic=path.join(__dirname,'../public')
 
 app.use(express.static(pathToPublic))	//passing the static files
 
-io.on('connection',()=>{
+let count=0
+
+io.on('connection',(socket)=>{
 	console.log("new connection established")
+
+	socket.emit('countUpdated',count)
+
+	socket.on('increment',()=>{
+		count++
+		io.emit('countUpdated',count)
+	})
 })
 
 server.listen(3000,()=>{	//listening to the server
