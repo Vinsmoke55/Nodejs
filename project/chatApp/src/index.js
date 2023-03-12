@@ -12,16 +12,14 @@ const pathToPublic=path.join(__dirname,'../public')
 
 app.use(express.static(pathToPublic))	//passing the static files
 
-let count=0
 
 io.on('connection',(socket)=>{
 	console.log("new connection established")
 
-	socket.emit('countUpdated',count)
-
-	socket.on('increment',()=>{
-		count++
-		io.emit('countUpdated',count)
+	socket.emit('message',"welcome!")	//emmiting the welcome! to the client
+	
+	socket.on('sendMessage',(message)=>{	//taking emitted message form the client 
+		io.emit('message',message)			//emmiting message to the client
 	})
 })
 

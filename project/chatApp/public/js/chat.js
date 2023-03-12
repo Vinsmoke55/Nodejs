@@ -1,10 +1,11 @@
 const socket=io()
 
-socket.on('countUpdated',(count)=>{
-	console.log('the count have been updated'+count)
+socket.on('message',(welcome)=>{	//to send the welcome message to the client
+	console.log(welcome)
 })
 
-document.querySelector('#increment').addEventListener('click',()=>{
-	console.log("clicked")
-	socket.emit('increment')
+document.querySelector('#message-form').addEventListener('submit',(e)=>{	//getting the form and adding a event listner
+	e.preventDefault()
+	const message=e.target.elements.message.value	//target form with element name message and taking its value and storing
+	socket.emit('sendMessage',message)		//emmiting the message to the server
 })
