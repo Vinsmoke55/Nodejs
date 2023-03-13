@@ -19,7 +19,7 @@ io.on('connection',(socket)=>{
 	socket.emit('message',"welcome!")	//emmiting the welcome! to the client
 	
 	socket.on('sendMessage',(message)=>{	//taking emitted message form the client 
-		io.emit('message',message)			//emmiting message to the client
+		io.emit('message',message)			//emmiting message to client
 	})
 })
 
