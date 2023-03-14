@@ -16,10 +16,16 @@ app.use(express.static(pathToPublic))	//passing the static files
 io.on('connection',(socket)=>{
 	console.log("new connection established")
 
+	socket.broadcast.emit('message',"A new user have joined")	//line line displays message in every connection except itself
+
 	socket.emit('message',"welcome!")	//emmiting the welcome! to the client
 	
 	socket.on('sendMessage',(message)=>{	//taking emitted message form the client 
 		io.emit('message',message)			//emmiting message to client
+	})
+
+	socket.on('disconnect',()=>{
+		io.emit('message',"A user have left")	//this line displays the message when use user leaves the connection
 	})
 })
 
