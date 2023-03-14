@@ -24,6 +24,10 @@ io.on('connection',(socket)=>{
 		io.emit('message',message)			//emmiting message to client
 	})
 
+	socket.on('sendLocation',(coords)=>{		//to send the coordinate to all the connection
+		io.emit('message',`https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+	})
+
 	socket.on('disconnect',()=>{
 		io.emit('message',"A user have left")	//this line displays the message when use user leaves the connection
 	})
