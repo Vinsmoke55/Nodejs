@@ -3,6 +3,7 @@ const path=require('path')
 const http=require('http')
 const express=require('express')
 const socketio=require('socket.io')
+const Filter=require('bad-words')
 
 const app=express()		//setting the express
 const server=http.createServer(app)	//creating a server
@@ -20,12 +21,18 @@ io.on('connection',(socket)=>{
 
 	socket.emit('message',"welcome!")	//emmiting the welcome! to the client
 	
-	socket.on('sendMessage',(message)=>{	//taking emitted message form the client 
+	socket.on('sendMessage',(message,callback)=>{	//taking emitted message form the client 
+		const filter=new Filter
+		if(filter.isProfane(message)){		//this line donot allow any profane message
+			return callback('profanity not allowed')
+		}
 		io.emit('message',message)			//emmiting message to client
+		callback()				//event acknowledgement
 	})
 
-	socket.on('sendLocation',(coords)=>{		//to send the coordinate to all the connection
+	socket.on('sendLocation',(coords,callback)=>{		//to send the coordinate to all the connection
 		io.emit('message',`https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+		callback()		//event acknowledgement
 	})
 
 	socket.on('disconnect',()=>{
