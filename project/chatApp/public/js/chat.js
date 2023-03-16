@@ -1,12 +1,22 @@
 const socket=io()
 
+
+//elements
 const $messageForm=document.querySelector('#message-form')
 const $messageFormInput=$messageForm.querySelector('input')
 const $messageFormButton=$messageForm.querySelector('button')
 const $sendLocationButton=document.querySelector('#send-location')
+const $messages=document.querySelector('#messages')
 
-socket.on('message',(welcome)=>{	//to send the welcome message to the client
-	console.log(welcome)
+//template
+const messageTemplate=document.querySelector('#message-template').innerHTML
+
+socket.on('message',(message)=>{	//to send the welcome message to the client
+	console.log(message)
+	const html=Mustache.render(messageTemplate,{	//rendering message to the browser using mustache
+		message
+	})
+	$messages.insertAdjacentHTML('beforeend',html)
 })
 
 $messageForm.addEventListener('submit',(e)=>{	//getting the form and adding a event listner
