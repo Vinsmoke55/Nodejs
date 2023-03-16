@@ -8,8 +8,10 @@ const $messageFormButton=$messageForm.querySelector('button')
 const $sendLocationButton=document.querySelector('#send-location')
 const $messages=document.querySelector('#messages')
 
+
 //template
 const messageTemplate=document.querySelector('#message-template').innerHTML
+const locationMessageTemplate=document.querySelector('#location-message-template').innerHTML
 
 socket.on('message',(message)=>{	//to send the welcome message to the client
 	console.log(message)
@@ -18,6 +20,15 @@ socket.on('message',(message)=>{	//to send the welcome message to the client
 	})
 	$messages.insertAdjacentHTML('beforeend',html)
 })
+
+socket.on('locationMessage',(url)=>{
+	console.log(url)
+	const html=Mustache.render(locationMessageTemplate,{
+		url
+	})
+	$messages.insertAdjacentHTML('beforeend',html)
+})
+
 
 $messageForm.addEventListener('submit',(e)=>{	//getting the form and adding a event listner
 	e.preventDefault()

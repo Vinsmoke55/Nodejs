@@ -30,8 +30,8 @@ io.on('connection',(socket)=>{
 		callback()				//event acknowledgement
 	})
 
-	socket.on('sendLocation',(coords,callback)=>{		//to send the coordinate to all the connection
-		io.emit('message',`https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+	socket.on('sendLocation',(coords,callback)=>{		//to send the coordinate 
+		io.emit('locationMessage',`https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
 		callback()		//event acknowledgement
 	})
 
