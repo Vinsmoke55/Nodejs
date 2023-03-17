@@ -16,7 +16,8 @@ const locationMessageTemplate=document.querySelector('#location-message-template
 socket.on('message',(message)=>{	//to send the welcome message to the client
 	console.log(message)
 	const html=Mustache.render(messageTemplate,{	//rendering message to the browser using mustache
-		message
+		message:message.text,
+		createdAt:moment(message.createdAt).format('h:mm a')	//putting time before message using moment library
 	})
 	$messages.insertAdjacentHTML('beforeend',html)
 })

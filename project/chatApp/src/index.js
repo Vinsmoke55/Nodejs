@@ -4,6 +4,7 @@ const http=require('http')
 const express=require('express')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
+const {generateMessage}=require('./utils/messages.js')
 
 const app=express()		//setting the express
 const server=http.createServer(app)	//creating a server
@@ -17,16 +18,16 @@ app.use(express.static(pathToPublic))	//passing the static files
 io.on('connection',(socket)=>{
 	console.log("new connection established")
 
-	socket.broadcast.emit('message',"A new user have joined")	//line line displays message in every connection except itself
+	socket.broadcast.emit('message',generateMessage("A new user have joined"))	//line line displays message in every connection except itself
 
-	socket.emit('message',"welcome!")	//emmiting the welcome! to the client
+	socket.emit('message',generateMessage('welcome!'))	//emmiting the welcome! to the client
 	
 	socket.on('sendMessage',(message,callback)=>{	//taking emitted message form the client 
 		const filter=new Filter
 		if(filter.isProfane(message)){		//this line donot allow any profane message
 			return callback('profanity not allowed')
 		}
-		io.emit('message',message)			//emmiting message to client
+		io.emit('message',generateMessage(message))			//emmiting message to client
 		callback()				//event acknowledgement
 	})
 
@@ -36,7 +37,7 @@ io.on('connection',(socket)=>{
 	})
 
 	socket.on('disconnect',()=>{
-		io.emit('message',"A user have left")	//this line displays the message when use user leaves the connection
+		io.emit('message',generateMessage("A user have left"))	//this line displays the message when use user leaves the connection
 	})
 })
 
