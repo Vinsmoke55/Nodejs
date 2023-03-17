@@ -4,7 +4,7 @@ const http=require('http')
 const express=require('express')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
-const {generateMessage}=require('./utils/messages.js')
+const {generateMessage,generateLocationMessage}=require('./utils/messages.js')
 
 const app=express()		//setting the express
 const server=http.createServer(app)	//creating a server
@@ -32,7 +32,7 @@ io.on('connection',(socket)=>{
 	})
 
 	socket.on('sendLocation',(coords,callback)=>{		//to send the coordinate 
-		io.emit('locationMessage',`https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+		io.emit('locationMessage',generateLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
 		callback()		//event acknowledgement
 	})
 

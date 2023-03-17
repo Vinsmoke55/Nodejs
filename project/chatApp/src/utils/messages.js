@@ -5,6 +5,14 @@ const generateMessage=(text)=>{	//for returning text message and time at which m
 	}
 }
 
+const generateLocationMessage=(url)=>{
+	return {
+		url,
+		createdAt:new Date().getTime()
+	}
+}
+
 module.exports={
-	generateMessage
+	generateMessage,
+	generateLocationMessage
 }
