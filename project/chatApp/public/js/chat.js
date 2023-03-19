@@ -13,6 +13,9 @@ const $messages=document.querySelector('#messages')
 const messageTemplate=document.querySelector('#message-template').innerHTML
 const locationMessageTemplate=document.querySelector('#location-message-template').innerHTML
 
+//options
+const {username,room}=Qs.parse(location.search,{ignoreQueryPrefix:true})	//getting and query string from the browser and parsing to object
+
 socket.on('message',(message)=>{	//to send the welcome message to the client
 	console.log(message)
 	const html=Mustache.render(messageTemplate,{	//rendering message to the browser using mustache
@@ -74,3 +77,5 @@ $sendLocationButton.addEventListener('click',()=>{	//getting the coordinate with
 		})
 	})
 })
+
+socket.emit('join',{username,room})	//emmiting the username and room name to the user

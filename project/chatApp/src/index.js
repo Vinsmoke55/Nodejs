@@ -18,9 +18,12 @@ app.use(express.static(pathToPublic))	//passing the static files
 io.on('connection',(socket)=>{
 	console.log("new connection established")
 
-	socket.broadcast.emit('message',generateMessage("A new user have joined"))	//line line displays message in every connection except itself
-
-	socket.emit('message',generateMessage('welcome!'))	//emmiting the welcome! to the client
+	socket.on('join',({username,room})=>{
+		socket.join(room)		//joining the room 
+		socket.emit('message',generateMessage('welcome!'))	//emmiting the welcome! to the client
+		socket.broadcast.to(room).emit('message',generateMessage(`${username} has joined!`))	//this line to other person in the room except itself
+		
+	})
 	
 	socket.on('sendMessage',(message,callback)=>{	//taking emitted message form the client 
 		const filter=new Filter
