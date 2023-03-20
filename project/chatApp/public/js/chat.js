@@ -19,6 +19,7 @@ const {username,room}=Qs.parse(location.search,{ignoreQueryPrefix:true})	//getti
 socket.on('message',(message)=>{	//to send the welcome message to the client
 	console.log(message)
 	const html=Mustache.render(messageTemplate,{	//rendering message to the browser using mustache
+		username:message.username,
 		message:message.text,
 		createdAt:moment(message.createdAt).format('h:mm a')	//putting time before message using moment library
 	})
@@ -28,6 +29,7 @@ socket.on('message',(message)=>{	//to send the welcome message to the client
 socket.on('locationMessage',(message)=>{
 	console.log(message)
 	const html=Mustache.render(locationMessageTemplate,{
+		username:message.username,
 		url:message.url,
 		createdAt:moment(message.createdAt).format('h:mm a')
 	})

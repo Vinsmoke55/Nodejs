@@ -27,29 +27,31 @@ io.on('connection',(socket)=>{
 		}
 
 		socket.join(user.room)		//joining the room 
-		socket.emit('message',generateMessage('welcome!'))	//emmiting the welcome! to the client
-		socket.broadcast.to(user.room).emit('message',generateMessage(`${user.username} has joined!`))	//this line to other person in the room except itself
+		socket.emit('message',generateMessage('Admin','welcome!'))	//emmiting the welcome! to the client
+		socket.broadcast.to(user.room).emit('message',generateMessage('Admin',`${user.username} has joined!`))	//this line to other person in the room except itself
 		callback()
 	})
 	
 	socket.on('sendMessage',(message,callback)=>{	//taking emitted message form the client 
+		const user=getUser(socket.id)
 		const filter=new Filter
 		if(filter.isProfane(message)){		//this line donot allow any profane message
 			return callback('profanity not allowed')
 		}
-		io.emit('message',generateMessage(message))			//emmiting message to client
+		io.to(user.room).emit('message',generateMessage(user.username,message))			//emmiting message to client
 		callback()				//event acknowledgement
 	})
 
 	socket.on('sendLocation',(coords,callback)=>{		//to send the coordinate 
-		io.emit('locationMessage',generateLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
+		const user=getUser(socket.id)
+		io.to(user.room).emit('locationMessage',generateLocationMessage(user.username,`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
 		callback()		//event acknowledgement
 	})
 
 	socket.on('disconnect',()=>{
 		const user=removeUser(socket.id)
 		if(user){
-			io.to(user.room).emit('message',generateMessage(`${user.username} have left the room`))	//this line displays the message when use user leaves the connection
+			io.to(user.room).emit('message',generateMessage('Admin',`${user.username} have left the room`))	//this line displays the message when use user leaves the connection
 		}
 	})
 })
