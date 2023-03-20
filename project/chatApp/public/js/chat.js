@@ -78,4 +78,9 @@ $sendLocationButton.addEventListener('click',()=>{	//getting the coordinate with
 	})
 })
 
-socket.emit('join',{username,room})	//emmiting the username and room name to the user
+socket.emit('join',{username,room},(error)=>{		//emmiting the username and room name to the user and callback for the error
+	if(error){
+		alert(error)
+		location.href='/'		//redirecting the root page ie login page
+	}
+})	

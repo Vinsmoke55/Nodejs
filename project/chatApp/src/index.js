@@ -5,6 +5,7 @@ const express=require('express')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
 const {generateMessage,generateLocationMessage}=require('./utils/messages.js')
+const {addUser,removeUser,getUser,getUserInRoom}=require('./utils/users.js')
 
 const app=express()		//setting the express
 const server=http.createServer(app)	//creating a server
@@ -18,11 +19,17 @@ app.use(express.static(pathToPublic))	//passing the static files
 io.on('connection',(socket)=>{
 	console.log("new connection established")
 
-	socket.on('join',({username,room})=>{
-		socket.join(room)		//joining the room 
+	socket.on('join',(options,callback)=>{
+		const {error,user}=addUser({id:socket.id,...options})
+
+		if(error){
+			return callback(error)
+		}
+
+		socket.join(user.room)		//joining the room 
 		socket.emit('message',generateMessage('welcome!'))	//emmiting the welcome! to the client
-		socket.broadcast.to(room).emit('message',generateMessage(`${username} has joined!`))	//this line to other person in the room except itself
-		
+		socket.broadcast.to(user.room).emit('message',generateMessage(`${user.username} has joined!`))	//this line to other person in the room except itself
+		callback()
 	})
 	
 	socket.on('sendMessage',(message,callback)=>{	//taking emitted message form the client 
@@ -40,7 +47,10 @@ io.on('connection',(socket)=>{
 	})
 
 	socket.on('disconnect',()=>{
-		io.emit('message',generateMessage("A user have left"))	//this line displays the message when use user leaves the connection
+		const user=removeUser(socket.id)
+		if(user){
+			io.to(user.room).emit('message',generateMessage(`${user.username} have left the room`))	//this line displays the message when use user leaves the connection
+		}
 	})
 })
 
