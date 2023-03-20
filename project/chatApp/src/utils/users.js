@@ -41,15 +41,21 @@ const removeUser=(id)=>{
 	}
 }
 
-addUser({
-	id:22,
-	username:'ayush',
-	room:'ank'
-})
+const getUser=(id)=>{	//to get a single user by its id
+	return users.find((user)=>{
+		return user.id===id
+	})
+}
 
-console.log(users)
+const getUserInRoom=(room)=>{	//to get all the user in the room
+	return users.filter((user)=>{
+		return user.room===room
+	})
+}
 
-const removedUser=removeUser(22)
-
-console.log(removedUser)
-console.log(users)
+module.exports={
+	addUser,
+	removeUser,
+	getUser,
+	getUserInRoom
+}
